@@ -2,6 +2,6 @@
 
 from .scrape_youtube import (
     scrape_videos,
-    scrape_youtube
+    scrape_comments
     )
 

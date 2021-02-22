@@ -1,4 +1,3 @@
-# import required libraries
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -51,7 +50,7 @@ def scrape_videos(query, driver_path="C:/WebDriver/bin/chromedriver.exe"):
     return videos
     
     
-def scrape_youtube(videos, driver_path, csv_path="../comments.csv"):
+def scrape_comments(videos, driver_path, csv_path="../comments.csv"):
     """
     Scrape YouTube video and comment info and write data to a csv file.
 
@@ -61,7 +60,6 @@ def scrape_youtube(videos, driver_path, csv_path="../comments.csv"):
     csv_path -- the file path to save csv file (default "../comments.csv")
     """
     
-    path = csv_path
     csv_file = open(csv_path,'w', encoding="UTF-8", newline="")
     writer = csv.writer(csv_file)    
     # write header names
