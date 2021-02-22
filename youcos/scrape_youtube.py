@@ -18,50 +18,48 @@ def scrape_videos(query, driver_path="C:/WebDriver/bin/chromedriver.exe"):
     query -- the query to search for on YouTube
     driver_path -- the browser path for Selenium (default "C:/WebDriver/bin/chromedriver.exe")
     """
-
+    
     link = "https://www.youtube.com/results?search_query=" + query
             
-    driver = webdriver.Chrome(executable_path=driver_path,chrome_options=chrome_options)
+    driver = webdriver.Chrome(executable_path=driver_path, chrome_options=chrome_options)
     driver.get(link)
     
     print("=" * 40)
     print("Scraping " + link)    
     
-    time.sleep(5)
+    time.sleep(5) # Waiting for videos to load
     
-    for i in range(0,5):  # Scroll to load comments
+    # Scroll to load videos
+    for i in range(0,5):
         driver.execute_script("window.scrollTo(0,Math.max(document.documentElement.scrollHeight,document.body.scrollHeight,document.documentElement.clientHeight))")
         print("scrolling to load more comments")
         time.sleep(4)
-
-    video_list = driver.find_elements_by_xpath('//*[@id="video-title"]')  # Scrape video title
+        
+    video_list = driver.find_elements_by_xpath('//*[@id="video-title"]')
     
-    urls = []
-    titles = [] 
-    queries = []
+    videos = []
     
-    for video in video_list: # store URL and video titles
-        urls.append(video.get_attribute('href'))
-        titles.append(video.get_attribute('title'))
-        queries.append(query.replace('+',' '))
-        print("scraped ", video.get_attribute('title'))
+    for video in video_list:
+        v = {
+            'url' : video.get_attribut('href'),
+            'title' : video.get_attribute('title'),
+            'query' : query
+        }
+        
+        videos.append(v)
     
-    return {'urls' : urls, 'titles' : titles, 'queries' : queries}
+    return videos
     
     
-def scrape_youtube(urls_titles, driver_path, csv_path="../comments.csv"):
+def scrape_youtube(videos, driver_path, csv_path="../comments.csv"):
     """
     Scrape YouTube video and comment info and write data to a csv file.
 
     Keyword arguments:
-    urls_titles -- the query to search for on YouTube
+    videos -- the list of videos to scrape
     driver_path -- the browser path for Selenium (default "C:/WebDriver/bin/chromedriver.exe")
     csv_path -- the file path to save csv file (default "../comments.csv")
     """
-    
-    urls = urls_titles['urls']
-    titles = urls_titles['titles']
-    queries = urls_titles['queries']
     
     path = csv_path
     csv_file = open(csv_path,'w', encoding="UTF-8", newline="")
@@ -71,11 +69,15 @@ def scrape_youtube(urls_titles, driver_path, csv_path="../comments.csv"):
     
     driver = webdriver.Chrome(executable_path=driver_path)
 
-    videocounter = 0
-    for url in urls:
+    for video in videos:
         
+        url = video['url']
+        title = video['title']
+        query = video['query']
+        
+        # Scrape basic video data
         print("=" * 40)
-        print("video title : ",titles[videocounter])
+        print("video title : ", title)
         driver.get(url)
         v_channel = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR,"div#upload-info yt-formatted-string"))).text
         print("channel : ",v_channel)    
@@ -83,10 +85,8 @@ def scrape_youtube(urls_titles, driver_path, csv_path="../comments.csv"):
         print("no. of views : ",v_views)
         v_timeUploaded = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR,"div#date yt-formatted-string"))).text
         print("time uploaded : ",v_timeUploaded)
-        
         w = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR,"div#top-level-buttons yt-formatted-string")))
         w = driver.find_elements_by_css_selector("div#top-level-buttons yt-formatted-string")
-        
         v_likes = w[0].text
         v_dislikes = w[1].text
         print("video has ", v_likes, "likes and ", v_dislikes, " dislikes")
@@ -95,22 +95,21 @@ def scrape_youtube(urls_titles, driver_path, csv_path="../comments.csv"):
     
         print("+" * 40)  # Shows in terminal when details of a new video is being scraped
         print("Scraping child links ")
-        #scroll down to load comments
+        
+        # Load comments section
         driver.execute_script('window.scrollTo(0,390);')
-    
-        # let comments load
         time.sleep(2)
-    
+        
         try:
+            
+            # Sort by top comments
             print("sorting by top comments")
             sort= WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR,"div#icon-label")))
             sort.click()
-                
             topcomments =driver.find_element_by_xpath("""//*[@id="menu"]/a[1]/paper-item/paper-item-body/div[1]""")
             topcomments.click()
             
-    
-            # Loads 20 comments , scroll five times to load next set of 40 comments. 
+            # Loads more comments
             for i in range(0,5):
                 driver.execute_script("window.scrollTo(0,Math.max(document.documentElement.scrollHeight,document.body.scrollHeight,document.documentElement.clientHeight))")
                 print("scrolling to load more comments")
@@ -118,7 +117,6 @@ def scrape_youtube(urls_titles, driver_path, csv_path="../comments.csv"):
     
             # Count total number of comments and set index to number of comments if less than 50 otherwise set as 50. 
             totalcomments= len(driver.find_elements_by_xpath("""//*[@id="content-text"]"""))
-            
     
             if totalcomments < 100:
                 index= totalcomments
@@ -155,9 +153,9 @@ def scrape_youtube(urls_titles, driver_path, csv_path="../comments.csv"):
                 except:
                     upvotes = ""
                     
-                youtube_dict['query'] = queries[videocounter]
+                youtube_dict['query'] = query
                 youtube_dict['url'] = url
-                youtube_dict['link_title'] = titles[videocounter]
+                youtube_dict['title'] = title
                 youtube_dict['likes'] = v_likes
                 youtube_dict['dislikes'] = v_dislikes
                 youtube_dict['channel'] = v_channel
@@ -174,9 +172,5 @@ def scrape_youtube(urls_titles, driver_path, csv_path="../comments.csv"):
                 ccount = ccount + 1
         # if video errors out, move onto the next one
         except TimeoutException as e:
-            print(titles[videocounter], "  errored out: ",str(e))
+            print(title, "  errored out: ",str(e))
             print("moving onto next video")
-        # counter for the videos
-        videocounter = videocounter+1
-        
-    # close writer and file
