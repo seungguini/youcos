@@ -23,10 +23,9 @@ _each row corresponds to a comment_
 ```python
 import youcos
 
-
 videos = youcos.scrape_videos('query')
+youcos.scrape_comments(videos)
 ```
----
 
 ## API
 There are **two** ways to scrape comments, each catered for different purposes
@@ -38,19 +37,16 @@ from before._
 ```
 
 ```
-    - methods: `scrape_videos` & `scrape_youtube`
+    - methods: `scrape_videos` & `scrape_comments`
     - good for authenticating scraped titles to prevent
     
 2. Scraping video titles and comments together
----
 
 ## Notes
 - How does YouTube display / recommend their videos?
 
----
-
 ## To Do
-- switch youtube title list as a list of JSON style objects [{url, title, query}]
+### Features
 - search based on different filters
 - selenium dependency support for all drivers
 - choose to filter comments based on relevancy & top comments
@@ -58,6 +54,8 @@ from before._
 - maximum number of videos to scrape
 - maximum number of comments to scrape
 - method to skip video authentication
+### Deployment
+- use Sphynx to build documentation
 
 # Credits
 - Year: 2021
