@@ -45,6 +45,8 @@ def scrape_videos(query, API_KEY, maxResults=30, driver_path="C:/WebDriver/bin/c
     if not video_list:
         return
     
+    for video in video_list:
+        video['query'] = query
     return video_list
     
     
