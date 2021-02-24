@@ -17,32 +17,38 @@ _each row corresponds to a comment_
 - No. of replies to comment
 - No. of upvotes for comments
 
----
-
 ## Demo
-There are **two** ways to scrape comments, each catered for different purposes
-1. Scraping video titles and comments separately
-```python
-import youcos
+There are **two** main ways to scrape comments:
 
-videos = youcos.scrape_videos("stocks")
+1. Scraping video titles and comments together
+```python
+from youcos import scrape_youtube
+
+KEY = 'YOUR_YOUTUBE_V3_API_KEY'
+
+scrape_youtube('stocks', KEY)
+```
+
+2. Scraping video titles and comments separately
+_If you call `youcos` often on the same query, you may wish to avoid duplicating data by re-scraping comments._
+_By calling `scrape video` and `scrape_comments` separately, you can filter and choose_
+_the particular videos to scrape comments from!_
+
+```python
+from youcos import scrape_videos, scrape_comments
+
+KEY = 'YOUR_YOUTUBE_V3_API_KEY'
+
+videos = scrape_videos("stocks", KEY)
+
 filtered_videos = foo(videos)
-youcos = scrape_comments()
+
+scrape_comments(filtered_videos)
 
 foo(videos):
-    # function to return filtered videos #
+    # function to filter videos
 ```
     
-2. Scraping video titles and comments together
-```python
-import youcos
-
-scrape_youtube(videos)
-```
-
-## Notes
-- How does YouTube display / recommend their videos?
-
 ## To Do
 ### Features
 - search based on different filters
