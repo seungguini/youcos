@@ -1,13 +1,15 @@
-# -*- coding: utf-8 -*-
-
-# -*- coding: utf-8 -*-
-
-from dotenv import load_dotenv
-import os
-
 from googleapiclient.discovery import build
 
 def ytSearch(query, API_KEY, maxResults=20):
+    """
+    Request YouTube video search results and return their titles, publish dates, and urls
+
+    Keyword arguments:
+    query -- the query to search for on YouTube
+    API_KEY  -- the API key to authenticate requests to YouTube Data API v3
+    maxResults -- the maximum number of videos to request
+    """
+    
     if not API_KEY:
         return '"Please provide "YouTube API Key"'
     
@@ -23,12 +25,18 @@ def ytSearch(query, API_KEY, maxResults=20):
     items = search_response['items']
     
     if not items:
-        return 'Error: No YouTube results'
+        return
 
     return list(map(filter_videos, items))
     
-    
 def filter_videos(video):
+    """
+    Extract video title, publish date, and url from YouTube search results
+    
+    Keyword arguments:
+    video -- the video search result requested from YouTube API v3
+    """
+    
     title = video['snippet']['title']
     date = video['snippet']['publishedAt']
     url = "https://www.youtube.com/watch?v=" + video['id']['videoId']
@@ -39,17 +47,3 @@ def filter_videos(video):
         'url': url
     }
     
-    
-def main():
-    load_dotenv()
-    
-    # Authenticate with YouTube API
-    KEY = os.environ.get('API_KEY')
-    
-    query = 'stocks'
-    
-    video_list = ytSearch(query, API_KEY=KEY, maxResults=10)
-    print(video_list)
-    
-if __name__ == "__main__":
-    main()

@@ -9,7 +9,9 @@ chrome_options.add_argument('--disable-dev-shm-usage')
 import time
 import csv
 
-def scrape_youtube(query, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_path="../comments.csv"):
+from requests import ytSearch
+
+def scrape_youtube(query, API_KEY, maxResults=30, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_path="../comments.csv",):
     """
     Scrape YouTube video and comment info based on query search results and write data to a csv file.
     If you wish to separate the video-scraping and comment-scraping processes to filter out titles,
@@ -17,60 +19,41 @@ def scrape_youtube(query, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_p
     
     Keyword arguments:
     query -- the query to search for on YouTube
+    API_KEY  -- the API key to authenticate requests to YouTube Data API v3
+    maxResults -- the maximum number of videos to scrape
     driver_path -- the browser path for Selenium (default "C:/WebDriver/bin/chromedriver.exe")
     csv_path -- the file path to save csv file (default "../comments.csv")
     """
     
-    videos = scrape_videos(query, driver_path)
-    scrape_comments(videos)
+    video_list = scrape_videos(query, API_KEY, maxResults=maxResults, driver_path=driver_path)
+    scrape_comments(video_list, driver_path=driver_path, csv_path=csv_path)
 
-def scrape_videos(query, driver_path="C:/WebDriver/bin/chromedriver.exe"):
+def scrape_videos(query, API_KEY, maxResults=30, driver_path="C:/WebDriver/bin/chromedriver.exe"):
     """
-    Scrape top _ YouTube videos for query and return object of urls, titles, and queries.
+    Search YouTube videos based on query and return a list of dictionaries containing url, title, and query.
+    For more info on YouTube v3 API, please visit https://developers.google.com/youtube/v3
 
     Keyword arguments:
     query -- the query to search for on YouTube
+    API_KEY  -- the API key to authenticate requests to YouTube Data API v3
     driver_path -- the browser path for Selenium (default "C:/WebDriver/bin/chromedriver.exe")
     """
     
-    link = "https://www.youtube.com/results?search_query=" + query
-            
-    driver = webdriver.Chrome(executable_path=driver_path, chrome_options=chrome_options)
-    driver.get(link)
+    video_list = ytSearch(query,API_KEY,maxResults)
     
-    print("=" * 40)
-    print("Scraping " + link)    
+    # Check if there are no video results
+    if not video_list:
+        return
     
-    time.sleep(5) # Waiting for videos to load
-    
-    # Scroll to load videos
-    for i in range(0,5):
-        driver.execute_script("window.scrollTo(0,Math.max(document.documentElement.scrollHeight,document.body.scrollHeight,document.documentElement.clientHeight))")
-        print("scrolling to load more comments")
-        time.sleep(4)
-        
-    video_list = driver.find_elements_by_xpath('//*[@id="video-title"]')
-    
-    videos = []
-    
-    for video in video_list:
-        v = {
-            'url' : video.get_attribut('href'),
-            'title' : video.get_attribute('title'),
-            'query' : query
-        }
-        
-        videos.append(v)
-    
-    return videos
+    return video_list
     
     
-def scrape_comments(videos, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_path="../comments.csv"):
+def scrape_comments(video_list, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_path="../comments.csv"):
     """
     Scrape YouTube video and comment info and write data to a csv file.
 
     Keyword arguments:
-    videos -- the list of videos to scrape
+    video_list -- the list of video_list to scrape
     driver_path -- the browser path for Selenium (default "C:/WebDriver/bin/chromedriver.exe")
     csv_path -- the file path to save csv file (default "../comments.csv")
     """
@@ -82,7 +65,7 @@ def scrape_comments(videos, driver_path="C:/WebDriver/bin/chromedriver.exe", csv
     
     driver = webdriver.Chrome(executable_path=driver_path)
 
-    for video in videos:
+    for video in video_list:
         
         url = video['url']
         title = video['title']
