@@ -9,9 +9,24 @@ chrome_options.add_argument('--disable-dev-shm-usage')
 import time
 import csv
 
+def scrape_youtube(query, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_path="../comments.csv"):
+    """
+    Scrape YouTube video and comment info based on query search results and write data to a csv file.
+    If you wish to separate the video-scraping and comment-scraping processes to filter out titles,
+    call `scrape_comments` and `scrape_videos`
+    
+    Keyword arguments:
+    query -- the query to search for on YouTube
+    driver_path -- the browser path for Selenium (default "C:/WebDriver/bin/chromedriver.exe")
+    csv_path -- the file path to save csv file (default "../comments.csv")
+    """
+    
+    videos = scrape_videos(query, driver_path)
+    scrape_comments(videos)
+
 def scrape_videos(query, driver_path="C:/WebDriver/bin/chromedriver.exe"):
     """
-    Scrape top _ YouTube videos for query and return object of urls,  titles, and queries.
+    Scrape top _ YouTube videos for query and return object of urls, titles, and queries.
 
     Keyword arguments:
     query -- the query to search for on YouTube
@@ -50,7 +65,7 @@ def scrape_videos(query, driver_path="C:/WebDriver/bin/chromedriver.exe"):
     return videos
     
     
-def scrape_comments(videos, driver_path, csv_path="../comments.csv"):
+def scrape_comments(videos, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_path="../comments.csv"):
     """
     Scrape YouTube video and comment info and write data to a csv file.
 
