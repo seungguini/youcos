@@ -2,7 +2,7 @@
 
 youcos (**you**tube **co**mment **s**craper) is a simple Python package for scraping YouTube comments!
 
-:page_facing_up: **youcos** the following data into a csv file:
+:page_facing_up: save the following data into a csv file:
 _each row corresponds to a comment_
 - Url
 - Title
@@ -45,12 +45,21 @@ filtered_videos = foo(videos)
 
 scrape_comments(filtered_videos)
 
-foo(videos):
+def foo(videos):
     # function to filter videos
 ```
-    
+## Installation   
+Install with pip:
+`pip install youcos`
+
+## Dependencies
+- [Selenium](https://www.selenium.dev/)
+
+## API reference
+Check ___ for specific API documentation!
+
 ## To Do
-### Features
+### Functionalities
 - search based on different filters
 - selenium dependency support for all drivers
 - choose to filter comments based on relevancy & top comments
@@ -61,7 +70,6 @@ foo(videos):
 ### Deployment
 - use Sphynx to build documentation
 
-# Credits
-- Year: 2021
-- Author: Seunggun Lee
+## Credits
+- Author: Seunggun Leez`
 - Languages/Tools: Python3, [Selenium](https://www.selenium.dev/)
