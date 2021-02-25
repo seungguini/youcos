@@ -55,8 +55,9 @@ Install with pip:
 ## Dependencies
 - [Selenium](https://www.selenium.dev/)
 
-## API reference
-Check ___ for specific API documentation!
+## Documentation
+Check ___ for specific API documentation. This project was documented following the [numpy docstring conventions](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt),
+which are supported by common documentation tools like [Sphynx](https://www.sphinx-doc.org/) while also maintaining readability.
 
 ## To Do
 ### Functionalities
