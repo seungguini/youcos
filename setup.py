@@ -13,6 +13,7 @@ setuptools.setup(
     description='YOUCOS is a simple Python package for scraping YouTube videos and comments',
     version='v0.0.1.dev1',
     long_description=README,
+    long_description_content_type='text/markdown',
     url='https://github.com/seungguini/youcos',
     packages=setuptools.find_packages(),
     python_requires=">=3.5",
