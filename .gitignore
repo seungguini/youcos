@@ -1,4 +1,4 @@
-# test scripts
+# Test scripts
 /youcos/test.py
 /youcos/data/
 
@@ -31,6 +31,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+.pypirc
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
