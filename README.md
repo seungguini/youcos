@@ -1,9 +1,9 @@
- <p style="text-align: center;">![GitHub](https://img.shields.io/github/license/seungguini/youcos)</p>
- <p style="text-align: center;">![PyPI](https://img.shields.io/pypi/v/youcos)</p>
+![GitHub](https://img.shields.io/github/license/seungguini/youcos)
+![PyPI](https://img.shields.io/pypi/v/youcos)
 
 # youcos
 
-:bar_chart: youcos (**you**tube **co**mment **s**craper) is a simple Python package for scraping YouTube comments!
+youcos (**you**tube **co**mment **s**craper) is a simple Python package for scraping YouTube comments!
 
 :four_leaf_clover: **Easy YouTube v3 API Wrapper** - Simply provide your [YouTube v3 API Key](https://developers.google.com/youtube/v3/getting-started), and youcos will take care of the rest!
 No additional code needed to configure API and process fetched JSON data.
@@ -60,20 +60,6 @@ The following data are saved into the csv file:
 | upload date | no. of replies|
 | no. of likes| no. of upvotes|
 | no. of dislikes| -        | 
-
-
-- Url
-- Title
-- Channel name
-- No. of views
-- Date Uploaded
-- No. of likes
-- No. of dislikes
-- Comment Text
-- Comment Author
-- Comment Date
-- No. of replies to comment
-- No. of upvotes for comments
 
 ## Dependencies
 - [Selenium](https://www.selenium.dev/)
