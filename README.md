@@ -1,7 +1,7 @@
-# youcos
+ <p style="text-align: center;">![GitHub](https://img.shields.io/github/license/seungguini/youcos)</p>
+ <p style="text-align: center;">![PyPI](https://img.shields.io/pypi/v/youcos)</p>
 
-![GitHub](https://img.shields.io/github/license/seungguini/youcos)
-![PyPI](https://img.shields.io/pypi/v/youcos)
+# youcos
 
 :bar_chart: youcos (**you**tube **co**mment **s**craper) is a simple Python package for scraping YouTube comments!
 
@@ -52,7 +52,15 @@ def foo(videos):
 ## Features
 The following data are saved into the csv file:
 
-_each row in the csv file corresponds to a comment_
+| Video Data | Comment Data |
+| ----------- | ----------- |
+| URL         | text        |
+| title       | author      |
+| channel name| date        |
+| upload date | no. of replies|
+| no. of likes| no. of upvotes|
+| no. of dislikes| -        | 
+
 
 - Url
 - Title
