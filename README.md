@@ -3,8 +3,16 @@
 ![GitHub](https://img.shields.io/github/license/seungguini/youcos)
 ![PyPI](https://img.shields.io/pypi/v/youcos)
 
-youcos (**you**tube **co**mment **s**craper) is a simple Python package for scraping YouTube comments!
+:bar_chart: youcos (**you**tube **co**mment **s**craper) is a simple Python package for scraping YouTube comments!
 
+:four_leaf_clover: **Easy YouTube v3 API Wrapper** - Simply provide your [YouTube v3 API Key](https://developers.google.com/youtube/v3/getting-started), and youcos will take care of the rest!
+No additional code needed to configure API and process fetched JSON data.
+
+:earth_asia: **Diverse Language Support** - Search, scrape, and save videos & comments in different languges with youcos.
+
+:test_tube:	**Configurable Search Settings** - Adjust search location and search method.
+
+:chart_with_upwards_trend: **Minimized Quota Usage** - Scrape comments without exhausting YouTube v3 quota through the built-in Selenium module with youcos!
 
 ## Demo
 There are **two** main ways to scrape comments:
@@ -21,11 +29,6 @@ scrape_youtube('stocks', KEY)
 ```
 
 2. Scraping video titles and comments separately
-
-_If you call `youcos` often on the same query, you may wish to avoid duplicating data by re-scraping comments._
-_By calling `scrape video` and `scrape_comments` separately, you can filter and choose_
-_the particular videos to scrape comments from!_
-
 ```python
 from youcos import scrape_videos, scrape_comments
 
@@ -44,11 +47,10 @@ def foo(videos):
     # function to filter videos
 ```
 ## Installation   
-Install with pip:
 `pip install youcos`
 
 ## Features
-:page_facing_up: save the following data are saved into the csv file:
+The following data are saved into the csv file:
 
 _each row in the csv file corresponds to a comment_
 
@@ -72,6 +74,10 @@ _each row in the csv file corresponds to a comment_
 Check ___ for specific API documentation. This project was documented following the [numpy docstring conventions](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt),
 which are supported by common documentation tools like [Sphynx](https://www.sphinx-doc.org/) while also maintaining readability.
 
+## Credits
+- Author: Seunggun Lee
+- Languages/Tools: Python3, [Selenium](https://www.selenium.dev/)
+
 ## To Do
 ### Functionalities
 - search based on different filters
@@ -84,6 +90,3 @@ which are supported by common documentation tools like [Sphynx](https://www.sphi
 ### Deployment
 - use Sphynx to build documentation
 
-## Credits
-- Author: Seunggun Leez`
-- Languages/Tools: Python3, [Selenium](https://www.selenium.dev/)

@@ -1,4 +1,4 @@
-"""Setup for the chocobo package."""
+"""Setup for the youcos package."""
 
 import setuptools
 
@@ -8,10 +8,10 @@ with open('README.md') as f:
 setuptools.setup(
     author="Seunggun Lee",
     author_email="seungguini@gmail.com",
-    name='YOUCOS',
+    name='youcos',
     license="MIT",
-    description='YOUCOS is a simple Python package for scraping YouTube videos and comments',
-    version='v0.0.1.dev1',
+    description='youcos is a simple Python package for scraping YouTube videos and comments',
+    version='v0.0.2',
     long_description=README,
     long_description_content_type='text/markdown',
     url='https://github.com/seungguini/youcos',
