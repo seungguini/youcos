@@ -47,7 +47,9 @@ def foo(videos):
     # function to filter videos
 ```
 ## Installation   
-`pip install youcos`
+```shell
+pip install youcos
+```
 
 ## Features
 The following data are saved into the csv file:
