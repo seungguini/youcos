@@ -3,16 +3,7 @@
 
 # youcos
 
-## Contents
-1. [Demo](##demo)
-2. [Installation](##installation)
-3. [Features](##features)
-4. [Documentation](##documentation)
-5. [Dependencies](##dependencies)
-6. [Credits](##credits)
-7. [To Do](##to-do)
-
-youcos (**you**tube **co**mment **s**craper) is a simple Python package for scraping YouTube comments!
+youcos (**you**tube **co**mment **s**craper) is a simple Python package for scraping YouTube videos and comments!
 
 :four_leaf_clover: **Easy YouTube v3 API Wrapper** - Simply provide your [YouTube v3 API Key](https://developers.google.com/youtube/v3/getting-started), and youcos will take care of the rest!
 No additional code needed to configure API and process fetched JSON data.
@@ -23,9 +14,24 @@ No additional code needed to configure API and process fetched JSON data.
 
 :chart_with_upwards_trend: **Minimized Quota Usage** - Scrape comments without exhausting YouTube v3 quota through the built-in Selenium module with youcos!
 
-## Demo
-There are **two** main ways to scrape comments:
+## Table of Contents
+- [Demo](#demo)
 
+- [Installation](#installation)
+
+- [Features](#features)
+
+- [Dependencies](#dependencies)
+
+- [Documentation](#documentation)
+
+
+
+- [Credits](#credits)
+
+- [To Do](#to-do)
+
+## Demo
 1. Scraping video titles and comments together
 ```python
 from youcos import scrape_youtube
@@ -72,12 +78,16 @@ The following data are saved into the csv file:
 | no. of likes| no. of upvotes|
 | no. of dislikes| -        | 
 
+## Dependencies
+- [Selenium](https://www.selenium.dev/)
+
 ## Documentation
 Check ___ for specific API documentation. This project was documented following the [numpy docstring conventions](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt),
 which are supported by common documentation tools like [Sphynx](https://www.sphinx-doc.org/) while also maintaining readability.
 
-## Dependencies
-- [Selenium](https://www.selenium.dev/)
+## Contributing
+Package author and maintainer is Seunggun Lee ([seungguini@gmail.com](mailto:seungguini@gmail.com)).
+Contributions and feedback are more than welcome.
 
 ## Credits
 - Author: Seunggun Lee

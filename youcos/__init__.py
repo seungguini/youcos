@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from .scrape_youtube import (
-    scrape_youtube,
-    scrape_videos,
+    comments_to_csv,
+    request_videos,
+    request_comments,
     scrape_comments
     )

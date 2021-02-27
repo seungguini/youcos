@@ -9,13 +9,12 @@ chrome_options.add_argument('--disable-dev-shm-usage')
 import time
 import csv
 
-from requests import yt_search
+from requests import yt_search, yt_comments
 
-def scrape_youtube(query, API_KEY, maxResults=30, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_path="../comments.csv",):
+def comments_to_csv(query, API_KEY, maxResults=30, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_path="./youtube_comments.csv", useAPI=True):
     """
-    Scrape YouTube video and comment info based on query search results and write data to a csv file.
-    If you wish to separate the video-scraping and comment-scraping processes to filter out titles,
-    call `scrape_comments` and `scrape_videos`
+    Search YouTube video and comment info based on query search results and write data to a csv file.
+    If `useAPI` is set to False, `youcos` will scrape the comments for each video using Selenium.
     
     Parameters
     ----------
@@ -29,14 +28,20 @@ def scrape_youtube(query, API_KEY, maxResults=30, driver_path="C:/WebDriver/bin/
         The browser path for Selenium (the default is "C:/WebDriver/bin/chromedriver.exe", which is the typical location for Chrome drivers)
     csv_path : string, optional
         The file path to save csv file (the default is "../comments.csv", which saves the file in the directory above the current one)
+    useAPI : boolean, optional
+        If False, `youcos` scrapes comments for each video using Selenium (the default is True, which makes `youcos` use YouTube v3 API to request comments)
     """
     
-    video_list = scrape_videos(query, API_KEY, maxResults=maxResults, driver_path=driver_path)
-    scrape_comments(video_list, driver_path=driver_path, csv_path=csv_path)
+    video_list = request_videos(query, API_KEY, maxResults=maxResults, driver_path=driver_path)
+    
+    if (useAPI):
+        request_comments(video_list, API_KEY, csv_path)
+    else:
+        scrape_comments(video_list, driver_path, csv_path)
 
-def scrape_videos(query, API_KEY, maxResults=30, driver_path="C:/WebDriver/bin/chromedriver.exe"):
+def request_videos(query, API_KEY, maxResults=30, driver_path="C:/WebDriver/bin/chromedriver.exe"):
     """
-    Search YouTube videos based on query and return a list of dictionaries containing url, title, and search query.
+    Search YouTube videos based on the given query and return a list of dictionaries containing url, title, and search query.
 
     Parameters
     ----------
@@ -64,11 +69,53 @@ def scrape_videos(query, API_KEY, maxResults=30, driver_path="C:/WebDriver/bin/c
     for video in video_list:
         video['query'] = query
     return video_list
+
+def request_comments(video_list, API_KEY, csv_path="../comments.csv"):
+    """
+    Request comment data using the YouTube v3 API, then write video and comment data to a csv file.
+
+    Parameters
+    ----------
+    video_list : list of dict
+        The list of videos to fetch comments
+    API_KEY : string
+        The API key to authenticate requests to YouTube Data API v3
+    csv_path : string, optional
+        The location to save the csv file containing comments data
+    """
     
+    csv_file = open(csv_path,'w', encoding="UTF-8", newline="")
+    writer = csv.writer(csv_file)    
+    
+    writer.writerow(['query', 'url', 'title', 'upload_date', 'channel', 'views', 'likes', 'dislikes', 'comment_text', 'comment_author', 'comment_date', 'comment_likes'])    
+
+    for video in video_list:
+        
+        # Grab all comments for video
+        comments = yt_comments(video['id'], API_KEY)
+        
+        for comment in comments:
+            youtube_dict = {}
+            
+            # Write scraped data to csv file
+            youtube_dict['query'] = video['query']
+            youtube_dict['url'] = "https://www.youtube.com/watch?v=" + video['id']
+            youtube_dict['title'] = video['title']
+            youtube_dict['upload_date'] = video['date']
+            youtube_dict['channel'] = video['channel']
+            youtube_dict['views'] = video['views']
+            youtube_dict['likes'] = video['likes']
+            youtube_dict['dislikes'] = video['dislikes']
+            youtube_dict['comment_text'] = comment['text']
+            youtube_dict['comment_author'] = comment['author']
+            youtube_dict['comment_date'] = comment['date']
+            youtube_dict['comment_likes'] = comment['likes']
+        
+            writer.writerow(youtube_dict.values())
     
 def scrape_comments(video_list, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_path="../comments.csv"):
     """
-    Scrape YouTube video and comment info, then write data to a csv file.
+    Scrape YouTube video and comment info using Selenium, then write data to a csv file.
 
     Parameters
     ----------
@@ -83,14 +130,14 @@ def scrape_comments(video_list, driver_path="C:/WebDriver/bin/chromedriver.exe",
     csv_file = open(csv_path,'w', encoding="UTF-8", newline="")
     writer = csv.writer(csv_file)    
     
-    writer.writerow(['url', 'link_title', 'channel', 'no_of_views', 'time_uploaded', 'comment', 'author', 'comment_posted', 'no_of_replies','upvotes','downvotes'])
-    
+    writer.writerow(['query', 'url', 'title', 'upload_date', 'channel', 'no_of_views', 'likes', 'dislikes', 'comment', 'author', 'comment_date', 'no_of_replies','upvotes'])    
     driver = webdriver.Chrome(executable_path=driver_path)
 
     for video in video_list:
         
         url = video['url']
         title = video['title']
+        upload_date = video['date']
         query = video['query']
         
         # Scrape basic video data
@@ -153,9 +200,9 @@ def scrape_comments(video_list, driver_path="C:/WebDriver/bin/chromedriver.exe",
                 except:
                     authors = ""
                 try:
-                    comment_posted = driver.find_elements_by_xpath('//*[@id="published-time-text"]/a')[ccount].text
+                    comment_date = driver.find_elements_by_xpath('//*[@id="published-time-text"]/a')[ccount].text
                 except:
-                    comment_posted = ""
+                    comment_date = ""
                 try:
                     replies = driver.find_elements_by_xpath('//*[@id="more-text"]')[ccount].text                    
                     if replies =="View reply":
@@ -170,18 +217,19 @@ def scrape_comments(video_list, driver_path="C:/WebDriver/bin/chromedriver.exe",
                 except:
                     upvotes = ""
                 
+                              
                 # Write scraped data to csv file
                 youtube_dict['query'] = query
                 youtube_dict['url'] = url
                 youtube_dict['title'] = title
-                youtube_dict['likes'] = v_likes
-                youtube_dict['dislikes'] = v_dislikes
+                youtube_dict['upload_date'] = upload_date
                 youtube_dict['channel'] = v_channel
                 youtube_dict['no_of_views'] = v_views
-                youtube_dict['time_uploaded'] = v_timeUploaded
+                youtube_dict['likes'] = v_likes
+                youtube_dict['dislikes'] = v_dislikes
                 youtube_dict['comment'] = comment
                 youtube_dict['author'] = authors
-                youtube_dict['comment_posted'] = comment_posted
+                youtube_dict['comment_date'] = comment_date
                 youtube_dict['no_of_replies'] = replies
                 youtube_dict['upvotes'] = upvotes
                 writer.writerow(youtube_dict.values())
@@ -192,3 +240,4 @@ def scrape_comments(video_list, driver_path="C:/WebDriver/bin/chromedriver.exe",
         except TimeoutException as e:
             print(title, "  errored out: ",str(e))
             print("moving onto next video")
+            

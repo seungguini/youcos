@@ -1,3 +1,7 @@
+# Random
+todo.txt
+*.csv
+
 # Test scripts
 /youcos/test.py
 /youcos/data/
