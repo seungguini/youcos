@@ -11,7 +11,7 @@ import csv
 
 from requests import yt_search, yt_comments
 
-def comments_to_csv(query, API_KEY, maxResults=30, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_path="./youtube_comments.csv", useAPI=True):
+def comments_to_csv(query, API_KEY, maxResults=49, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_path="./youtube_comments.csv", useAPI=True):
     """
     Search YouTube video and comment info based on query search results and write data to a csv file.
     If `useAPI` is set to False, `youcos` will scrape the comments for each video using Selenium.
