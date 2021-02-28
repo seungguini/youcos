@@ -39,7 +39,7 @@ def comments_to_csv(query, API_KEY, maxResults=49, driver_path="C:/WebDriver/bin
     else:
         scrape_comments(video_list, driver_path, csv_path)
 
-def request_videos(query, API_KEY, maxResults=30, driver_path="C:/WebDriver/bin/chromedriver.exe"):
+def request_videos(query, API_KEY, maxResults=49, driver_path="C:/WebDriver/bin/chromedriver.exe"):
     """
     Search YouTube videos based on the given query and return a list of dictionaries containing url, title, and search query.
 

@@ -5,12 +5,12 @@
 
 youcos (**you**tube **co**mment **s**craper) is a simple Python package for scraping YouTube videos and comments!
 
-:four_leaf_clover: **Easy YouTube v3 API Wrapper** - Simply provide your [YouTube v3 API Key](https://developers.google.com/youtube/v3/getting-started), and youcos will take care of the rest!
+:four_leaf_clover: **Lightweight YouTube v3 API Wrapper** - Simply provide your [YouTube v3 API Key](https://developers.google.com/youtube/v3/getting-started), and youcos will take care of the rest!
 No additional code needed to configure API and process fetched JSON data.
 
 :earth_asia: **Diverse Language Support** - Search, scrape, and save videos & comments in different languges with youcos.
 
-:test_tube:	**Configurable Search Settings** - Adjust search location and search method.
+:rocket: **Fast Performance** - Request and write approximately 4,000 comments, just within 1 minute.
 
 :chart_with_upwards_trend: **Minimized Quota Usage** - Scrape comments without exhausting YouTube v3 quota through the built-in Selenium module with youcos!
 
@@ -24,8 +24,6 @@ No additional code needed to configure API and process fetched JSON data.
 - [Dependencies](#dependencies)
 
 - [Documentation](#documentation)
-
-
 
 - [Credits](#credits)
 
@@ -67,8 +65,8 @@ pip install youcos
 ```
 
 ## Features
-The following data are saved into the csv file:
 
+- Collected Data
 | Video Data | Comment Data |
 | ----------- | ----------- |
 | URL         | text        |
@@ -92,16 +90,3 @@ Contributions and feedback are more than welcome.
 ## Credits
 - Author: Seunggun Lee
 - Languages/Tools: Python3, [Selenium](https://www.selenium.dev/)
-
-## To Do
-### Functionalities
-- search based on different filters
-- selenium dependency support for all drivers
-- choose to filter comments based on relevancy & top comments
-- headless browser scraping (option)
-- maximum number of videos to scrape
-- maximum number of comments to scrape
-- method to skip video authentication
-### Deployment
-- use Sphynx to build documentation
-
