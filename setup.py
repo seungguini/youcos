@@ -21,7 +21,6 @@ setuptools.setup(
     classifiers=[
         # Trove classifiers
         # (https://pypi.python.org/pypi?%3Aaction=list_classifiers)
-        'Development Status :: 1 - Planning',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.5',
