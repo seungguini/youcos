@@ -10,14 +10,14 @@ setuptools.setup(
     author_email="seungguini@gmail.com",
     name='youcos',
     license="MIT",
-    description='youcos is a simple Python package for scraping YouTube videos and comments',
-    version='v0.0.2',
+    description='youcos is a simple Python package for collecting YouTube videos and comments',
+    version='v0.0.3',
     long_description=README,
     long_description_content_type='text/markdown',
     url='https://github.com/seungguini/youcos',
     packages=setuptools.find_packages(),
     python_requires=">=3.5",
-    install_requires=['selenium'],
+    install_requires=['selenium', 'google-api-python-client'],
     classifiers=[
         # Trove classifiers
         # (https://pypi.python.org/pypi?%3Aaction=list_classifiers)
