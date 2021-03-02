@@ -9,7 +9,7 @@ chrome_options.add_argument('--disable-dev-shm-usage')
 import time
 import csv
 
-from requests import yt_search, yt_comments
+from yt_requests import yt_search, yt_comments
 
 def comments_to_csv(query, API_KEY, maxResults=49, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_path="./youtube_comments.csv", useAPI=True):
     """
