@@ -94,6 +94,10 @@ def request_comments(video_list, API_KEY, csv_path="../comments.csv"):
         # Grab all comments for video
         comments = yt_comments(video['id'], API_KEY)
         
+        # Skip video if comments are disabled
+        if not comments:
+            continue
+        
         for comment in comments:
             youtube_dict = {}
             

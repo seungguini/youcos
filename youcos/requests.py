@@ -1,4 +1,5 @@
 from googleapiclient.discovery import build
+from urllib.error import HttpError
 
 def yt_search(query, API_KEY, maxResults=20):
     """
@@ -32,7 +33,8 @@ def yt_search(query, API_KEY, maxResults=20):
         q='stocks',
         maxResults=maxResults,
         part='id',
-        type='video'
+        type='video',
+        order='viewCount'
     ).execute()
     search_items = search_response['items']
     
@@ -82,14 +84,18 @@ def yt_comments(videoId, API_KEY):
     
     youtube = build('youtube', 'v3', developerKey=API_KEY)
     
-    # Grab comments for videoId
-    comments_response = youtube.commentThreads().list(
-        part='id,snippet',
-        videoId=videoId,
-        maxResults=100,
-        order="relevance"
-
-    ).execute()
+    try:
+        # Grab comments for videoId
+        comments_response = youtube.commentThreads().list(
+            part='id,snippet',
+            videoId=videoId,
+            maxResults=100,
+            order="relevance"
+    
+        ).execute()
+    
+    except HttpError:
+        return
     
     items = comments_response['items']
     comments = None

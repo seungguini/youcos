@@ -1,11 +1,15 @@
-
 Welcome to youcos's documentation!
 ==================================
 
+.. automodule:: scrape_youtube
+   :members:
+   
+.. automodule:: requests
+   :members:
+   
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
-
+   :caption: Table of Contents:
 
 
 Indices and tables
