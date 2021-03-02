@@ -67,6 +67,7 @@ pip install youcos
 ## Features
 
 - Collected Data
+
 | Video Data | Comment Data |
 | ----------- | ----------- |
 | URL         | text        |
@@ -74,7 +75,7 @@ pip install youcos
 | channel name| date        |
 | upload date | no. of replies|
 | no. of likes| no. of upvotes|
-| no. of dislikes| -        | 
+| no. of dislikes| # of comments | 
 
 ## Dependencies
 - [Selenium](https://www.selenium.dev/)

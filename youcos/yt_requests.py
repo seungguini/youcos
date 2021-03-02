@@ -1,5 +1,4 @@
 from googleapiclient.discovery import build
-from urllib.error import HttpError
 
 def yt_search(query, API_KEY, maxResults=20):
     """
@@ -94,7 +93,7 @@ def yt_comments(videoId, API_KEY):
     
         ).execute()
     
-    except HttpError:
+    except:
         return
     
     items = comments_response['items']
@@ -140,7 +139,7 @@ def parse_videos(video):
         'views': views,
         'likes': likes,
         'dislikes': dislikes,
-        'commentCount': commentCount
+        'comment_count': commentCount
     }
     
     return video_dict
@@ -161,7 +160,7 @@ def parse_comments(commentThread):
     comment = commentThread['snippet']['topLevelComment']
     
     snippet = comment['snippet']
-    text = snippet['textDisplay']
+    text = snippet['textOriginal'].replace("\n", " ").replace("\t", " ").replace("\r", " ")
     author = snippet['authorDisplayName']
     date = snippet['publishedAt']
     likes = snippet['likeCount']

@@ -87,7 +87,7 @@ def request_comments(video_list, API_KEY, csv_path="../comments.csv"):
     csv_file = open(csv_path,'w', encoding="UTF-8", newline="")
     writer = csv.writer(csv_file)    
     
-    writer.writerow(['query', 'url', 'title', 'upload_date', 'channel', 'views', 'likes', 'dislikes', 'comment_text', 'comment_author', 'comment_date', 'comment_likes'])    
+    writer.writerow(['query', 'url', 'title', 'upload_date', 'channel', 'views', 'likes', 'dislikes', 'comment_count', 'comment_text', 'comment_author', 'comment_date', 'comment_likes'])    
 
     for video in video_list:
         
@@ -110,6 +110,7 @@ def request_comments(video_list, API_KEY, csv_path="../comments.csv"):
             youtube_dict['views'] = video['views']
             youtube_dict['likes'] = video['likes']
             youtube_dict['dislikes'] = video['dislikes']
+            youtube_dict['comment_count'] = video['comment_count']
             youtube_dict['comment_text'] = comment['text']
             youtube_dict['comment_author'] = comment['author']
             youtube_dict['comment_date'] = comment['date']
