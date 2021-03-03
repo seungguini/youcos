@@ -29,7 +29,7 @@ def yt_search(query, API_KEY, maxResults=20):
     
     # Request search results
     search_response = youtube.search().list(
-        q='stocks',
+        q=query,
         maxResults=maxResults,
         part='id',
         type='video',
@@ -127,9 +127,16 @@ def parse_videos(video):
     ID = video['id']
     stats = video['statistics']
     views = stats['viewCount']
-    likes = stats['likeCount']
-    dislikes = stats['dislikeCount']
-    commentCount = stats['commentCount']
+    try:
+        likes = stats['likeCount']
+        dislikes = stats['dislikeCount']
+    except:
+        likes = 0
+        dislikes = 0
+    try:
+        commentCount = stats['commentCount']
+    except:
+        commentCount = 0
     
     video_dict = {
         'title': title,

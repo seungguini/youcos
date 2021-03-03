@@ -83,6 +83,7 @@ pip install youcos
 
 ```shell
 pip install --upgrade selenium google-api-python-client
+```
 
 ## Documentation
 Check ___ for specific API documentation. This project was documented following the [numpy docstring conventions](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt),
