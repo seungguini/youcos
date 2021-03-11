@@ -11,7 +11,7 @@ import csv
 
 from yt_requests import yt_search, yt_comments
 
-def comments_to_csv(query, API_KEY, maxResults=49, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_path="./youtube_comments.csv", useAPI=True):
+def comments_to_csv(query, API_KEY, publishedBefore, publishedAfter, maxResults=49, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_path="./youtube_comments.csv", useAPI=True):
     """
     Search YouTube video and comment info based on query search results and write data to a csv file.
     If `useAPI` is set to False, `youcos` will scrape the comments for each video using Selenium.
@@ -31,15 +31,16 @@ def comments_to_csv(query, API_KEY, maxResults=49, driver_path="C:/WebDriver/bin
     useAPI : boolean, optional
         If False, `youcos` scrapes comments for each video using Selenium (the default is True, which makes `youcos` use YouTube v3 API to request comments)
     """
+
     
-    video_list = request_videos(query, API_KEY, maxResults=maxResults, driver_path=driver_path)
+    video_list = request_videos(query, API_KEY,  publishedBefore, publishedAfter, maxResults=maxResults)
     
     if (useAPI):
         request_comments(video_list, API_KEY, csv_path)
     else:
         scrape_comments(video_list, driver_path, csv_path)
 
-def request_videos(query, API_KEY, maxResults=49, driver_path="C:/WebDriver/bin/chromedriver.exe"):
+def request_videos(query, API_KEY, publishedBefore, publishedAfter, maxResults=49, driver_path="C:/WebDriver/bin/chromedriver.exe"):
     """
     Search YouTube videos based on the given query and return a list of dictionaries containing url, title, and search query.
 
@@ -60,7 +61,7 @@ def request_videos(query, API_KEY, maxResults=49, driver_path="C:/WebDriver/bin/
     For more info on YouTube v3 API, please visit https://developers.google.com/youtube/v3
     """
     
-    video_list = yt_search(query,API_KEY,maxResults)
+    video_list = yt_search(query, API_KEY, publishedBefore, publishedAfter, maxResults)
     
     # Check if there are no video results
     if not video_list:
