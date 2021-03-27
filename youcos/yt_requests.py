@@ -34,6 +34,7 @@ def yt_search(query, API_KEY, publishedBefore, publishedAfter, maxResults=20):
         part='id',
         type='video',
         order='viewCount',
+        relevanceLanguage='en',
         publishedBefore=publishedBefore,
         publishedAfter=publishedAfter
     ).execute()
