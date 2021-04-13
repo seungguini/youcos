@@ -6,6 +6,7 @@ from selenium.common.exceptions import TimeoutException
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--disable-dev-shm-usage')
+import pandas as pd
 import time
 import csv
 
@@ -71,9 +72,10 @@ def request_videos(query, API_KEY, publishedBefore, publishedAfter, maxResults=4
         video['query'] = query
     return video_list
 
-def request_comments(video_list, API_KEY, csv_path="../comments.csv"):
+def request_comments(video_list, API_KEY, csv_path="../comments.csv", as_df=False):
     """
-    Request comment data using the YouTube v3 API, then write video and comment data to a csv file.
+    Request comment data using the YouTube v3 API, then write video and comment data to a csv file or return as a Pandas DataFrame if
+    `as_df` is `True`
 
     Parameters
     ----------
@@ -83,13 +85,13 @@ def request_comments(video_list, API_KEY, csv_path="../comments.csv"):
         The API key to authenticate requests to YouTube Data API v3
     csv_path : string, optional
         The location to save the csv file containing comments data
+    as_df : boolean, optional
+        If True, return data as a Pandas Dataframe (default is False).
     """
+    columns = ['query', 'url', 'title', 'upload_date', 'channel', 'views', 'likes', 'dislikes', 'comment_count', 'comment_text', 'comment_author', 'comment_date', 'comment_likes']
+    df = pd.DataFrame(columns=columns)
     
-    csv_file = open(csv_path,'w', encoding="UTF-8", newline="")
-    writer = csv.writer(csv_file)    
     
-    writer.writerow(['query', 'url', 'title', 'upload_date', 'channel', 'views', 'likes', 'dislikes', 'comment_count', 'comment_text', 'comment_author', 'comment_date', 'comment_likes'])    
-
     for video in video_list:
         
         # Grab all comments for video
@@ -116,8 +118,13 @@ def request_comments(video_list, API_KEY, csv_path="../comments.csv"):
             youtube_dict['comment_author'] = comment['author']
             youtube_dict['comment_date'] = comment['date']
             youtube_dict['comment_likes'] = comment['likes']
-        
-            writer.writerow(youtube_dict.values())
+            df = df.append(youtube_dict, ignore_index=True)
+    
+    if as_df:
+        return df
+    
+    df.to_csv(csv_path, encoding="UTF-8", index=False)
+    return
     
 def scrape_comments(video_list, driver_path="C:/WebDriver/bin/chromedriver.exe", csv_path="../comments.csv"):
     """
