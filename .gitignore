@@ -3,7 +3,6 @@ todo.txt
 *.csv
 
 # Test scripts
-/youcos/test.py
 /youcos/data/
 
 # Byte-compiled / optimized / DLL files

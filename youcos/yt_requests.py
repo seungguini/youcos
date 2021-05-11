@@ -1,6 +1,6 @@
 from googleapiclient.discovery import build
 
-def yt_search(query, API_KEY, maxResults=20):
+def yt_search(query, API_KEY, publishedBefore, publishedAfter, maxResults=20):
     """
     Request YouTube video search results for a particular query and return parsed data
 
@@ -33,7 +33,10 @@ def yt_search(query, API_KEY, maxResults=20):
         maxResults=maxResults,
         part='id',
         type='video',
-        order='viewCount'
+        order='viewCount',
+        relevanceLanguage='en',
+        publishedBefore=publishedBefore,
+        publishedAfter=publishedAfter
     ).execute()
     search_items = search_response['items']
     
