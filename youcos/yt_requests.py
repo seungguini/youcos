@@ -28,16 +28,20 @@ def yt_search(query, API_KEY, publishedBefore, publishedAfter, maxResults=20):
     youtube = build('youtube', 'v3', developerKey=API_KEY)
     
     # Request search results
-    search_response = youtube.search().list(
-        q=query,
-        maxResults=maxResults,
-        part='id',
-        type='video',
-        order='viewCount',
-        relevanceLanguage='en',
-        publishedBefore=publishedBefore,
-        publishedAfter=publishedAfter
-    ).execute()
+    try:
+        search_response = youtube.search().list(
+            q=query,
+            maxResults=maxResults,
+            part='id',
+            type='video',
+            order='viewCount',
+            relevanceLanguage='en',
+            publishedBefore=publishedBefore,
+            publishedAfter=publishedAfter
+        ).execute()
+    except:
+        raise
+
     search_items = search_response['items']
     
     videos = None
