@@ -91,7 +91,8 @@ def request_comments(video_list, API_KEY, csv_path="../comments.csv", as_df=Fals
     columns = ['query', 'url', 'title', 'upload_date', 'channel', 'views', 'likes', 'dislikes', 'comment_count', 'comment_text', 'comment_author', 'comment_date', 'comment_likes']
     df = pd.DataFrame(columns=columns)
     
-    
+    # If video list is empty, return empty
+       
     for video in video_list:
         
         # Grab all comments for video
