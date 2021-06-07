@@ -11,7 +11,7 @@ setuptools.setup(
     name='youcos',
     license="MIT",
     description='youcos is a simple Python package for collecting YouTube videos and comments',
-    version='v0.0.3',
+    version='v0.0.5',
     long_description=README,
     long_description_content_type='text/markdown',
     url='https://github.com/seungguini/youcos',
