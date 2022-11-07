@@ -1,3 +1,5 @@
+# CURRENTLY REQUIRES HEAVY REWORK
+
 ![GitHub](https://img.shields.io/github/license/seungguini/youcos)
 ![PyPI](https://img.shields.io/pypi/v/youcos)
 
